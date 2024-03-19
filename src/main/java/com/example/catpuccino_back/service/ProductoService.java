@@ -5,9 +5,11 @@ import com.example.catpuccino_back.dto.ProductoDTO;
 import com.example.catpuccino_back.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 @Service
 public class ProductoService {
     @Autowired

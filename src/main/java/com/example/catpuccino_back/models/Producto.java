@@ -1,5 +1,4 @@
 package com.example.catpuccino_back.models;
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
