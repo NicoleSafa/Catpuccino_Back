@@ -8,11 +8,11 @@ import java.util.List;
 
 @Mapper (componentModel = "spring")
 public interface ProductoMapper {
-    ProductoDTO toDTO(Producto entity);
+     ProductoDTO toDTO(Producto entity);
 
-    Producto toEntity(ProductoDTO dto);
+     Producto toEntity(ProductoDTO dto);
 
-    List<ProductoDTO> toDTO(List<Producto>listEntity);
+     List<ProductoDTO> toDTO(List<Producto>listEntity);
 
-    List<Producto>toEntity(List<ProductoDTO> listDTOs);
+     List<Producto>toEntity(List<ProductoDTO> listDTOs);
 }
