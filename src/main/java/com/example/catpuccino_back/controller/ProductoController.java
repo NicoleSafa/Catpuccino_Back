@@ -20,6 +20,7 @@ public class ProductoController {
     private ProductoMapper productoMapper;
 
     @GetMapping(value="/producto")
-    public List<ProductoDTO> listarProducto(){return productoService.listarProducto();}
+    public List<ProductoDTO> listarProducto(){
+        return productoService.listarProducto();}
 
 }
