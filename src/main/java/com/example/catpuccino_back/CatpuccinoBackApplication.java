@@ -10,5 +10,4 @@ public class CatpuccinoBackApplication {
 		SpringApplication.run(CatpuccinoBackApplication.class, args);
 	}
 
-z
 }
