@@ -22,7 +22,8 @@ public class ProductoController {
 
     @GetMapping(value="/producto")
     public List<ProductoDTO> listarProducto(){
-        return productoService.listarProducto();}
+        return productoService.listarProducto();
+    }
 
     @GetMapping(value="/producto/{id}")
     public ResponseEntity<ProductoDTO>getById(@PathVariable("id")int id){
@@ -31,13 +32,19 @@ public class ProductoController {
     }
 
     @PostMapping(value="/producto")
-    public ProductoDTO crear (@RequestBody ProductoDTO productoDTO){return productoService.crearProducto(productoDTO);}
+    public ProductoDTO crear (@RequestBody ProductoDTO productoDTO){
+        return productoService.crearProducto(productoDTO);
+    }
 
     @PutMapping(value="/producto/{id}")
-    public Producto modificarProducto(@RequestBody ProductoDTO productoDTO) {return productoService.editarProducto(productoDTO);}
+    public Producto modificarProducto(@RequestBody ProductoDTO productoDTO) {
+        return productoService.editarProducto(productoDTO);
+    }
 
     @DeleteMapping(value="/producto/{id}")
-    public String eliminar(@PathVariable("id") Integer id){return this.productoService.eliminarProducto(id);}
+    public String eliminar(@PathVariable("id") Integer id){
+        return this.productoService.eliminarProducto(id);
+    }
 
 
 

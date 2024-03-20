@@ -4,6 +4,8 @@ import com.example.catpuccino_back.models.enums.Rol;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="usuario", schema="catpuccino")
 @Getter
@@ -42,4 +44,8 @@ public class Usuario {
 
     @Column(name="password")
     private String password;
+
+    @OneToMany(mappedBy = "id_usuario", fetch = FetchType.LAZY)
+    private Set<Reserva> reservas;
+
 }

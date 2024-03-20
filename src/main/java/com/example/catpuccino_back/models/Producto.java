@@ -24,6 +24,6 @@ public class Producto {
         private String descripcion;
 
         @Column(name="precio")
-        private Integer precio;
+        private Double precio;
 
 }
