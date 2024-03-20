@@ -1,6 +1,5 @@
 package com.example.catpuccino_back.dto;
 
-import com.example.catpuccino_back.models.Usuario;
 import lombok.Builder;
 import lombok.Data;
 

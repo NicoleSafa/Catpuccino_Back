@@ -20,6 +20,11 @@ public class ProductoService {
     @Autowired
     private ProductoMapper productoMapper;
 
+    //Metodo para ReservaService
+    public Producto getByIdProducto(Integer id){
+        return productoRepository.findById(id).orElse(null);
+    }
+
     //LISTAR
     public List<ProductoDTO> listarProducto(){return productoMapper.toDTO(productoRepository.findAll());}
 
