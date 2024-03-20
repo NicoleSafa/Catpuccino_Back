@@ -1,4 +1,8 @@
 package com.example.catpuccino_back.models;
+import com.example.catpuccino_back.models.enums.Raza;
+import com.example.catpuccino_back.models.enums.Sexo;
+import com.example.catpuccino_back.models.enums.Tamanyo;
+import com.example.catpuccino_back.models.enums.Tipo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +29,9 @@ public class Producto {
 
         @Column(name="precio")
         private Double precio;
+
+        @Column(name="tipo")
+        private Tipo tipo;
+
 
 }
