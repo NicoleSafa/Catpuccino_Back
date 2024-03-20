@@ -18,6 +18,6 @@ public class ReservaDTO {
     private Boolean reserva_activa;
     private Boolean pagado;
     private Double total;
-    private Usuario id_usuario;
+    private UsuarioDTO usuarioDTO;
 
 }
