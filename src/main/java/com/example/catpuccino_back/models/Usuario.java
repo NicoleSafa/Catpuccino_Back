@@ -48,4 +48,11 @@ public class Usuario {
     @OneToMany(mappedBy = "id_usuario", fetch = FetchType.LAZY)
     private Set<Reserva> reservas;
 
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private Set<Adopcion> adopciones;
+
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private Set<Solicitud> solicitudes;
+
+
 }

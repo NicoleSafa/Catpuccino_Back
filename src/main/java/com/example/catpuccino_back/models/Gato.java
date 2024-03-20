@@ -6,6 +6,8 @@ import com.example.catpuccino_back.models.enums.Tamanyo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="gato", schema="catpuccino")
 @Getter
@@ -47,5 +49,9 @@ public class Gato {
     @Column(name="chip")
     private Boolean chip;
 
+    @OneToMany(mappedBy = "idGato", fetch = FetchType.LAZY)
+    private Set<Adopcion> adopciones;
 
+    @OneToMany(mappedBy = "idGato", fetch = FetchType.LAZY)
+    private Set<Solicitud> solicitudes;
 }
