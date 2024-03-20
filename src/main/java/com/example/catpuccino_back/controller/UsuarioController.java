@@ -2,7 +2,6 @@ package com.example.catpuccino_back.controller;
 
 import com.example.catpuccino_back.converter.UsuarioMapper;
 import com.example.catpuccino_back.dto.UsuarioDTO;
-import com.example.catpuccino_back.models.Usuario;
 import com.example.catpuccino_back.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,5 +21,7 @@ public class UsuarioController {
     private UsuarioMapper usuarioMapper;
 
     @GetMapping(value="/usuario")
-    public List<UsuarioDTO> listarUsuario(){return usuarioService.listarUsuario();}
+    public List<UsuarioDTO> listarUsuario(){
+        return usuarioService.listarUsuario();
+    }
 }
