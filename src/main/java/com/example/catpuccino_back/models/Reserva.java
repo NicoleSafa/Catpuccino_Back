@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.sql.Time;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name="reserva", schema="catpuccino")
@@ -44,4 +45,7 @@ public class Reserva {
     @JoinColumn(name="id_usuario")
     @JsonIgnore
     private Usuario id_usuario;
+
+    @OneToMany(mappedBy = "id_reserva", fetch = FetchType.LAZY)
+    private Set<Consumicion> consumicion;
 }

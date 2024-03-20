@@ -1,10 +1,9 @@
 package com.example.catpuccino_back.models;
-import com.example.catpuccino_back.models.enums.Raza;
-import com.example.catpuccino_back.models.enums.Sexo;
-import com.example.catpuccino_back.models.enums.Tamanyo;
 import com.example.catpuccino_back.models.enums.Tipo;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name="producto", schema="catpuccino")
@@ -32,6 +31,9 @@ public class Producto {
 
         @Column(name="tipo")
         private Tipo tipo;
+
+        @OneToMany(mappedBy = "id_producto")
+        private Set<Consumicion> consumicion;
 
 
 }
