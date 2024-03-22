@@ -40,7 +40,6 @@ public class ProductoService {
     }
 
     //EDITAR
-    @PutMapping(value = "/producto/id")
     public Producto editarProducto (ProductoDTO productoDTO){
         Producto producto = productoRepository.findById(productoDTO.getId()).orElse(null);
         if (producto == null){

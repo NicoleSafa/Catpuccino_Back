@@ -22,7 +22,7 @@ public class Consumicion {
     private Integer id;
 
     @Column(name="cantidad")
-    private String cantidad;
+    private Integer cantidad;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="id_reserva")
@@ -33,4 +33,9 @@ public class Consumicion {
     @JoinColumn(name="id_producto")
     @JsonIgnore
     private Producto id_producto;
+
+
+
+
+
 }
