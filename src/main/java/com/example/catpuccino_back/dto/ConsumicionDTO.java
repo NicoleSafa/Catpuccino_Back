@@ -10,4 +10,6 @@ public class ConsumicionDTO {
     private ReservaDTO reservaDTO;
     private ProductoDTO productoDTO;
     private Integer cantidad;
+
+
 }
