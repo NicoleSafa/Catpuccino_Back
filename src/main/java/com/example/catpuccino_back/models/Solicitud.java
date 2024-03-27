@@ -1,5 +1,7 @@
 package com.example.catpuccino_back.models;
 
+import com.example.catpuccino_back.models.enums.EstadoSolicitud;
+import com.example.catpuccino_back.models.enums.Sexo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +12,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"idUsuario","idGato"})
 public class Solicitud {
 
     @Id
@@ -28,9 +30,11 @@ public class Solicitud {
     @JsonIgnore
     private Gato idGato;
 
+    @Column(name = "titulo")
+    private String titulo;
     @Column(name = "mensaje")
     private String mensaje;
 
-    @JoinColumn(name="aceptada")
-    private Boolean aceptada;
+    @Column(name="estado")
+    private EstadoSolicitud estadoSolicitud;
 }

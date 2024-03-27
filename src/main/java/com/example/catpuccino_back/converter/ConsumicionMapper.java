@@ -24,6 +24,7 @@ public abstract class ConsumicionMapper {
     protected ReservaService reservaService;
     @Autowired
     protected ProductoService productoService;
+
     ReservaMapper reservaMapper = Mappers.getMapper(ReservaMapper.class);
     ProductoMapper productoMapper = Mappers.getMapper(ProductoMapper.class);
 
