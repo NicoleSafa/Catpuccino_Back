@@ -23,12 +23,10 @@ public abstract class SolicitudMapper {
 
     @Autowired
     protected UsuarioService usuarioService;
-
     UsuarioMapper usuarioMapper = Mappers.getMapper(UsuarioMapper.class);
 
     @Autowired
     protected GatoService gatoService;
-
     GatoMapper gatoMapper= Mappers.getMapper(GatoMapper.class);
 
     @Mapping(source = "idUsuario", target = "usuarioDTO", qualifiedByName = "conversorUsuarioDTO")

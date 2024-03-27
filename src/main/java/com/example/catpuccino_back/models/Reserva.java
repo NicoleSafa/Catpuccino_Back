@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"id_usuario"})
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

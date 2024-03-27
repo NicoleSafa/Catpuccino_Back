@@ -14,7 +14,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"id_reserva","id_producto"})
 public class Consumicion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
