@@ -46,6 +46,11 @@ public class ProductoController {
         return this.productoService.eliminarProducto(id);
     }
 
+    @GetMapping("/producto/buscar/{tipoProducto}")
+    public List<Producto> getProductosPorTipo(@PathVariable Integer tipoProducto) {
+        return productoService.filtroTipoProducto(tipoProducto);
+    }
+
 
 
 }
