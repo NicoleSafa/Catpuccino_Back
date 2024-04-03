@@ -53,6 +53,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/Admin/**").hasAnyAuthority(Rol.SUPERUSER.name())
                                 .requestMatchers("/User/**").hasAnyAuthority(Rol.USUARIO.name())
+                                .requestMatchers("/comprobarReserva/**").permitAll()
                                 .requestMatchers("/consumiciones/**").permitAll()
                                 .requestMatchers("/producto/**").permitAll()
                                 .requestMatchers("/reserva/**").permitAll()
