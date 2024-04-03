@@ -14,10 +14,12 @@ public class GatoDTO {
     private Raza raza;
     private Tamanyo tamanyo;
     private Sexo sexo;
-    private String descripcion;
+    private String descripcionCorta;
     private Boolean disponible;
     private Boolean vacunacionCompleta;
+    private String descripcionLarga;
     private Boolean chip;
+    private Boolean necesidadesEspeciales;
 
 
 

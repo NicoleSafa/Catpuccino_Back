@@ -37,8 +37,8 @@ public class Gato {
     @Column(name="sexo")
     private Sexo sexo;
 
-    @Column(name="descripcion")
-    private String descripcion;
+    @Column(name="descripcion_corta")
+    private String descripcionCorta;
 
     @Column(name="disponible")
     private Boolean disponible;
@@ -48,6 +48,12 @@ public class Gato {
 
     @Column(name="chip")
     private Boolean chip;
+
+    @Column(name="descripcion_larga")
+    private String descripcionLarga;
+
+    @Column(name="necesidades_especiales")
+    private Boolean necesidadesEspeciales;
 
     @OneToMany(mappedBy = "idGato", fetch = FetchType.LAZY)
     private Set<Adopcion> adopciones;
