@@ -32,18 +32,18 @@ public class ConsumicionController {
         return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
-    @PostMapping(value ="/consumiciones")
-    public ConsumicionDTO crear (@RequestBody ConsumicionDTO consumicionDTO){
+    @PostMapping(value = "/consumiciones")
+    public ConsumicionDTO crear(@RequestBody ConsumicionDTO consumicionDTO) {
         return consumicionService.crearConsumicion(consumicionDTO);
     }
 
-    @PutMapping(value= "/consumiciones/{id}")
-    public Consumicion modificarConsumicion(@RequestBody ConsumicionDTO consumicionDTO){
+    @PutMapping(value = "/consumiciones/{id}")
+    public Consumicion modificarConsumicion(@RequestBody ConsumicionDTO consumicionDTO) {
         return consumicionService.editarConsumicion(consumicionDTO);
     }
 
-    @DeleteMapping(value="/consumiciones/{id}")
-    public String eliminar(@PathVariable("id") Integer id){
+    @DeleteMapping(value = "/consumiciones/{id}")
+    public String eliminar(@PathVariable("id") Integer id) {
         return this.consumicionService.eliminarConsumicion(id);
     }
 
@@ -54,5 +54,6 @@ public class ConsumicionController {
         consumicionService.agregarProductoAlCarrito(idProducto, cantidad, idReserva);
         return new ResponseEntity<>("Producto agregado al carrito", HttpStatus.OK);
     }
+
 
 }

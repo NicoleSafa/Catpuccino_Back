@@ -64,4 +64,9 @@ public class ProductoService {
             return ("Producto eliminado");
         }
     }
+
+    //FILTRO TIPO PRODUCTO
+    public List<Producto> filtroTipoProducto(Integer tipoProducto) {
+        return productoRepository.filtroTipoProducto(tipoProducto);
+    }
 }

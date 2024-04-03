@@ -29,4 +29,9 @@ public class ReservaService {
 
     //LISTAR
     public List<ReservaDTO> listarReservas() {return reservaMapper.toDTO(reservaRepository.findAll());}
+
+    //PARA EL FILTRO DE LA ULTIMA RESERVA
+    public Integer ultimareserva(int id) {
+        return reservaRepository.ultimareservausuario(id);
+    }
 }
