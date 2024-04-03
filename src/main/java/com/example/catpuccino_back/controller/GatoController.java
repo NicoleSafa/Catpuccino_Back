@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/gato")
 public class GatoController {
 
     @Autowired
@@ -22,28 +22,28 @@ public class GatoController {
     private GatoMapper gatoMapper;
 
 
-    @GetMapping(value="/gatos")
+    @GetMapping(value="/getAll")
     public List<GatoDTO>listarGato(){
         return gatoService.listarGato();
     }
 
-    @GetMapping(value = "/gato/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Gato> getById(@PathVariable("id") int id){
         Gato gato = gatoService.oneByOne(id).get();
         return new ResponseEntity<>(gato, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/gato/crear")
+    @PostMapping(value = "/crear")
     public GatoDTO crearGato(@RequestBody GatoDTO gatoDTO){
         return gatoService.crearGato(gatoDTO);
     }
 
-    @PutMapping(value = "/gato/editar")
+    @PutMapping(value = "/editar")
     public Gato editarGato(@RequestBody GatoDTO gatoDTO){
         return gatoService.editarGato(gatoDTO);
     }
 
-    @DeleteMapping(value = "/gato/eliminar")
+    @DeleteMapping(value = "/eliminar")
     public String eliminarGato(@RequestBody GatoDTO gatoDTO){
         return gatoService.eliminarGato(gatoDTO);
     }
