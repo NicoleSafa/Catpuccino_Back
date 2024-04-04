@@ -116,6 +116,17 @@ public class ConsumicionService {
         }
     }
 
+    //CARRITO TRAMPA
+    public void listaCarrito(List<ConsumicionDTO> consumiciones){
+        for ( ConsumicionDTO consumicion : consumiciones) {
+            Consumicion consumicionEntidad = consumicionMapper.toEntity(consumicion);
+            consumicionRepository.save(consumicionEntidad);
+
+
+        }
+    }
+
+
 
 
 
