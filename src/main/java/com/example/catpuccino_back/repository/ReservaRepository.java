@@ -17,12 +17,13 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     int disponibilidadHoras(Time hora, Date fecha);
 
     //TE PONE LA ÚLTIMA RESERVA LIGADA AL USUARIO
-    @Query(value = "SELECT r.id " +
-            "FROM catpuccino.usuario u " +
-            "JOIN catpuccino.reserva r ON r.id_usuario = u.id " +
-            "WHERE u.id = %:id " +
-            "ORDER BY r.fecha DESC " +
-            "LIMIT 1;", nativeQuery = true)
+    @Query(value = "    SELECT r.id" +
+            "        FROM catpuccino.reserva r" +
+            "        JOIN catpuccino.usuario u ON u.id = r.id_usuario" +
+            "        WHERE r.reserva_activa = true AND u.id = :id;", nativeQuery = true)
     Integer ultimareservausuario(int id);
 
 }
+
+
+
