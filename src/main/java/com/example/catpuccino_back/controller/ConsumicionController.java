@@ -56,8 +56,8 @@ public class ConsumicionController {
     }
 
     @PostMapping(value = "/consumiciones/pedido")
-    public String carrito (@RequestBody List<ConsumicionDTO> consumiciones){
-        consumicionService.listaCarrito(consumiciones);
+    public String carrito (){
+        consumicionService.listaCarrito();
         return  ("Producto agregado al carrito");
 
 

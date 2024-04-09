@@ -108,22 +108,20 @@ public class ConsumicionService {
                     .cantidad(cantidad)
                     .reservaDTO(reservaDTO)
                     .build();
-
-            Consumicion consumicionEntity = consumicionMapper.toEntity(consumicion);
-            consumicionRepository.save(consumicionEntity);
+            //Consumicion consumicionEntity = consumicionMapper.toEntity(consumicion);
+            //consumicionRepository.save(consumicionEntity);
 
             carrito.add(consumicion);
         }
     }
 
-    //CARRITO TRAMPA
-    public void listaCarrito(List<ConsumicionDTO> consumiciones){
-        for ( ConsumicionDTO consumicion : consumiciones) {
+    //FORMALIZAR PEDIDO
+    public void listaCarrito(){
+        for ( ConsumicionDTO consumicion : carrito) {
             Consumicion consumicionEntidad = consumicionMapper.toEntity(consumicion);
             consumicionRepository.save(consumicionEntidad);
-
-
         }
+        carrito.clear();
     }
 
 
