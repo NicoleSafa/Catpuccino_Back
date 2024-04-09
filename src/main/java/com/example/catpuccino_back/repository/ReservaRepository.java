@@ -4,6 +4,7 @@ package com.example.catpuccino_back.repository;
 import com.example.catpuccino_back.models.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
@@ -17,13 +18,17 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     int disponibilidadHoras(Time hora, Date fecha);
 
     //TE PONE LA ÚLTIMA RESERVA LIGADA AL USUARIO
-    @Query(value = "    SELECT r.id" +
-            "        FROM catpuccino.reserva r" +
-            "        JOIN catpuccino.usuario u ON u.id = r.id_usuario" +
-            "        WHERE r.reserva_activa = true AND u.id = :id;", nativeQuery = true)
-    Integer ultimareservausuario(int id);
 
-}
+
+        @Query(value = "SELECT r.id " +
+                "FROM catpuccino.reserva r " +
+                "JOIN catpuccino.usuario u ON u.id = r.id_usuario " +
+                "WHERE r.reserva_activa = true AND u.id = :idUsuario", nativeQuery = true)
+        Integer ultimareservausuario(@Param("idUsuario") int idUsuario);
+    }
+
+
+
 
 
 

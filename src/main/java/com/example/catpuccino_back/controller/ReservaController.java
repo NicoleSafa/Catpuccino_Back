@@ -28,8 +28,8 @@ public class ReservaController {
     }
 
     @GetMapping(value = "/reserva/ultima/{id}")
-    public Integer obtenerUltimaReservaUsuario(@PathVariable("id") int id) {
-        return reservaService.ultimareserva(id);
+    public Integer obtenerUltimaReservaUsuario(@PathVariable("id") int idUsuario) {
+        return reservaService.ultimareserva(idUsuario);
 
     }
 

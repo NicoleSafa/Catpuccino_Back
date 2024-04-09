@@ -50,8 +50,8 @@ public class ConsumicionController {
     @PostMapping(value = "/consumiciones/carrito/agregar")
     public ResponseEntity<String> agregarProductoAlCarrito(@RequestParam("idProducto") Integer idProducto,
                                                            @RequestParam("cantidad") Integer cantidad,
-                                                           @RequestParam("idReserva") Integer idReserva) {
-        consumicionService.agregarProductoAlCarrito(idProducto, cantidad, idReserva);
+                                                           @RequestParam("idUsuario") Integer idUsuario) {
+        consumicionService.agregarProductoAlCarrito(idProducto, cantidad, idUsuario);
         return new ResponseEntity<>("Producto agregado al carrito", HttpStatus.OK);
     }
 

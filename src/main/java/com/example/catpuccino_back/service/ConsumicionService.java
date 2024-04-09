@@ -96,7 +96,8 @@ public class ConsumicionService {
     //CARRITO
     private List<ConsumicionDTO> carrito = new ArrayList<>();
 
-    public void agregarProductoAlCarrito(Integer idProducto, Integer cantidad, Integer idReserva) {
+    public void agregarProductoAlCarrito(Integer idProducto, Integer cantidad, Integer idUsuario) {
+        Integer idReserva = reservaService.ultimareserva(idUsuario);
         Producto producto = productoService.getByIdProducto(idProducto);
         ProductoDTO productoDTO = productoMapper.toDTO(producto);
         Reserva reserva = reservaService.getByIdReserva(idReserva);

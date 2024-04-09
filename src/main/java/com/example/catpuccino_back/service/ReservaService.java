@@ -150,12 +150,8 @@ public class ReservaService {
     }
 
 
-
-
-
-
     //PARA EL FILTRO DE LA ULTIMA RESERVA
-    public Integer ultimareserva(int id) {
-        return reservaRepository.ultimareservausuario(id);
+    public Integer ultimareserva(int idUsuario) {
+        return reservaRepository.ultimareservausuario(idUsuario);
     }
 }
