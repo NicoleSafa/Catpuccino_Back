@@ -49,6 +49,7 @@ public class ProductoService {
             producto.setDescripcion(productoDTO.getDescripcion());
             producto.setPrecio(productoDTO.getPrecio());
             producto.setTipo(productoDTO.getTipo());
+            producto.setImagen(productoDTO.getImagen());
         }
 
         Producto productoModificado = productoRepository.save(producto);
