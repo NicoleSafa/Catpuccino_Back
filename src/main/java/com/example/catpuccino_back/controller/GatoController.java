@@ -47,4 +47,13 @@ public class GatoController {
     public String eliminarGato(@RequestBody GatoDTO gatoDTO){
         return gatoService.eliminarGato(gatoDTO);
     }
+
+
+    //------------FILTROS---------------
+    @GetMapping(value = "/gatosDisponibles")
+    public List<GatoDTO> getGatosDisponibles(){
+        return gatoService.getGatosDisponibles();
+    }
+
+
 }

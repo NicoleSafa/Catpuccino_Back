@@ -20,4 +20,9 @@ public class AdopcionService {
 
     //LISTAR
     public List<AdopcionDTO> listarAdopciones() {return adopcionMapper.toDTO(adopcionRepository.findAll());}
+
+    //------------FILTROS---------------
+    public  Integer getNumAdopciones(){
+        return adopcionRepository.getNumAdopciones();
+    }
 }

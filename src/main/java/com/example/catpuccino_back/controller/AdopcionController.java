@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/adopcion")
 public class AdopcionController {
 
     @Autowired
@@ -20,6 +20,12 @@ public class AdopcionController {
     @Autowired
     private AdopcionMapper adopcionMapper;
 
-    @GetMapping(value="/adopcion")
+    @GetMapping(value="/getAll")
     public List<AdopcionDTO>listarAdopcion(){return adopcionService.listarAdopciones();}
+
+    //------------FILTROS---------------
+    @GetMapping(value = "/numTotal")
+    public Integer getNumAdopciones(){
+        return adopcionService.getNumAdopciones();
+    }
 }
