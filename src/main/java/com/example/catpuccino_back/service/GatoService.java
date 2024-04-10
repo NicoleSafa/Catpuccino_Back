@@ -66,4 +66,9 @@ public class GatoService {
         }
     }
 
+    //------------FILTROS---------------
+    public  List<GatoDTO> getGatosDisponibles(){
+        return gatoMapper.toDTO(gatoRepository.getGatosDisponibles());
+    }
+
 }

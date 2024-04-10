@@ -59,6 +59,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/reserva/**").permitAll()
                                 .requestMatchers("/gato/**").permitAll()
                                 .requestMatchers("/solicitud/**").permitAll()
+                                .requestMatchers("/adopcion/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

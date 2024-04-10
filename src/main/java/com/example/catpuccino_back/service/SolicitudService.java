@@ -67,6 +67,13 @@ public class SolicitudService {
         }
     }
 
+    //ACTUALIZAR DISPONIBILIDAD DE GATOS ADOPTADOS
+    public void actualizarDisponibilidadGato(GatoDTO gatoDTO){
+        Gato gato = gatoRepository.findById(gatoDTO.getId()).orElse(null);
+
+        gato.setDisponible(Boolean.FALSE);
+    }
+
     //ACEPTAR SOLICITUD Y RECHAZAR LAS SOLICITUDES PENDIENTES CON ESE MISMO ID Y GUARDAR EN TABLA ADOPCIÓN
     public String aceptarSolicitud(int id) {
         //primero busco la solicitud por su id
@@ -85,6 +92,8 @@ public class SolicitudService {
             solicitudAAceptar.setEstadoSolicitud(EstadoSolicitud.ACEPTADO);
             solicitudRepository.save(solicitudMapper.toEntity(solicitudAAceptar));
 
+            actualizarDisponibilidadGato(gatoDTO);
+
             if (EstadoSolicitud.ACEPTADO.equals(solicitudAAceptar.getEstadoSolicitud())){
                 AdopcionDTO adopcionDTO = new AdopcionDTO();
                 adopcionDTO.setGatoDTO(gatoDTO);
@@ -98,7 +107,7 @@ public class SolicitudService {
 
         listarSolicitudes();
         actualizarEstadosSolicitud(solicitudAAceptar, listarSolicitudes());
-        return "Solicitud aceptada";
+        return "Solicitud aceptada correctamente";
     }
 
     public String rechazarSolicitud(int id) {
@@ -118,7 +127,7 @@ public class SolicitudService {
             solicitudARechazar.setEstadoSolicitud(EstadoSolicitud.RECHAZADO);
             solicitudRepository.save(solicitudMapper.toEntity(solicitudARechazar));
         }
-        return "Solicitud rechazada";
+        return "Solicitud rechazada correctamente";
     }
 
     //------------FILTROS---------------
