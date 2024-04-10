@@ -2,6 +2,7 @@ package com.example.catpuccino_back.models;
 import com.example.catpuccino_back.models.enums.Tipo;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CollectionId;
 
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public class Producto {
 
         @Column(name="tipo")
         private Tipo tipo;
+
+        @Column (name="imagen")
+        private String imagen;
 
         @OneToMany(mappedBy = "id_producto")
         private Set<Consumicion> consumicion;
