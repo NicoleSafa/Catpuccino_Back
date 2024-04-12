@@ -55,6 +55,7 @@ public class AuthenticationService {
         return  AuthenticationResponseDTO
                 .builder()
                 .token(token)
+                .id(user.getId())
                 .message("Login success")
                 .build();
     }

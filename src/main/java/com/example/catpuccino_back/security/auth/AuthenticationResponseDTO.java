@@ -13,4 +13,5 @@ public class AuthenticationResponseDTO {
 
     private String token;
     private String message;
+    private Integer id;
 }
