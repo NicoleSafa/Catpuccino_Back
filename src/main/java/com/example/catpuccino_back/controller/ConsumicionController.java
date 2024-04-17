@@ -59,8 +59,11 @@ public class ConsumicionController {
     public String carrito (){
         consumicionService.listaCarrito();
         return  ("Producto agregado al carrito");
+    }
 
-
+    @GetMapping(value="/consumiciones/verCarro")
+    public List mostrarLista(){
+        return consumicionService.mostrarLista();
     }
 
 

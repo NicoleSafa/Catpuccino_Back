@@ -115,6 +115,10 @@ public class ConsumicionService {
             carrito.add(consumicion);
         }
     }
+    //ME ENSEÑA LA LISTA QUE TENGO PARA METER
+    public List mostrarLista(){
+        return carrito;
+    }
 
     //FORMALIZAR PEDIDO
     public void listaCarrito(){
@@ -124,6 +128,8 @@ public class ConsumicionService {
         }
         carrito.clear();
     }
+
+
 
 
 

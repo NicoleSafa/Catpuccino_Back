@@ -14,6 +14,7 @@ public class ReservaDTO {
     private String telefono;
     private Date fecha;
     private Time hora;
+    private Integer numeroPersonas;
     private Boolean reserva_activa;
     private Boolean pagado;
     private Double total;
