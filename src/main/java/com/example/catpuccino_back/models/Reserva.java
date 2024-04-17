@@ -32,6 +32,9 @@ public class Reserva {
     @Column(name="hora")
     private Time hora;
 
+    @Column(name="num_personas")
+    private Integer numeroPersonas;
+
     @Column(name="reserva_activa")
     private Boolean reserva_activa = true;
 
