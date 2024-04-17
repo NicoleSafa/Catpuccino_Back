@@ -115,7 +115,7 @@ public class ConsumicionService {
             carrito.add(consumicion);
         }
     }
-    //ME ENSEÑA LA LISTA QUE TENGO PARA METER
+    //ME ENSEÑA LA LISTA QUE TENGO PARA METER Y ESO
     public List mostrarLista(){
         return carrito;
     }
