@@ -121,13 +121,27 @@ public class ConsumicionService {
     }
 
     //FORMALIZAR PEDIDO
-    public void listaCarrito(){
-        for ( ConsumicionDTO consumicion : carrito) {
-            Consumicion consumicionEntidad = consumicionMapper.toEntity(consumicion);
-            consumicionRepository.save(consumicionEntidad);
+    public void listaCarrito() {
+        for (ConsumicionDTO consumicion : carrito) {
+            Integer reservaId = consumicion.getReservaDTO().getId();
+            Integer productoId = consumicion.getProductoDTO().getId();
+            Integer cantidad = consumicion.getCantidad();
+
+            Integer existingConsumptionId = consumicionRepository.findByReservaIdAndProductoId(reservaId, productoId);
+
+            if (existingConsumptionId != null) {
+                Consumicion existingConsumption = consumicionRepository.getOne(existingConsumptionId);
+                existingConsumption.setCantidad(existingConsumption.getCantidad() + cantidad);
+                consumicionRepository.save(existingConsumption);
+            } else {
+                Consumicion consumicionEntidad = consumicionMapper.toEntity(consumicion);
+                consumicionRepository.save(consumicionEntidad);
+            }
         }
         carrito.clear();
     }
+
+
 
 
 
