@@ -56,6 +56,7 @@ public class AuthenticationService {
                 .builder()
                 .token(token)
                 .id(user.getId())
+                .rol(user.getRol())
                 .message("Login success")
                 .build();
     }
