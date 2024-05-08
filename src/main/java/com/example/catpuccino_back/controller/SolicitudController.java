@@ -20,6 +20,11 @@ public class SolicitudController {
     @GetMapping("/listar")
     public List<SolicitudDTO> listarSolicitud(){return solicitudService.listarSolicitudes();}
 
+    @PostMapping(value = "/newSolicitud")
+    public SolicitudDTO nuevaSolicitud(@RequestBody SolicitudDTO solicitudDTO){
+        return solicitudService.newSolicitud(solicitudDTO);
+    }
+
     @PatchMapping("/{id}/aceptar")
     public String aceptarSolicitud(@PathVariable int id){
         return solicitudService.aceptarSolicitud(id);
@@ -35,6 +40,11 @@ public class SolicitudController {
     @GetMapping(value = "/estadoSolicitud")
     public List<SolicitudDTO> getSolicitudByEstado(@RequestParam int enumEstadoSolicitud){
         return solicitudService.getSolicitudByEstado(enumEstadoSolicitud);
+    }
+
+    @GetMapping(value = "/{idGato}/numSolicitudes")
+    public Integer getNumSolicitudByGato(@PathVariable int idGato){
+        return solicitudService.getNumSolicitudByGato(idGato);
     }
 
 }

@@ -57,6 +57,11 @@ public class GatoController {
         return gatoService.getGatosDisponibles();
     }
 
+//    @GetMapping(value = "/gatosDisponiblesNumSoli")
+//    public List<GatoDTO> getGatosDisponiblesYNumSolicitudes(){
+//        return gatoService.getGatosDisponiblesYNumSolicitudes();
+//    }
+
     @GetMapping(value = "/getRazas")
     public List<Raza> getAllRazas(){
         return Arrays.asList(Raza.values());
