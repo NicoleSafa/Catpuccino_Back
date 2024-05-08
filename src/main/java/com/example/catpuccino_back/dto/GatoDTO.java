@@ -21,6 +21,8 @@ public class GatoDTO {
     private Boolean chip;
     private Boolean necesidadesEspeciales;
 
+//    private Long conteo;
+
 
 
 }

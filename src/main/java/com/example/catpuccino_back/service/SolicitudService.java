@@ -135,4 +135,8 @@ public class SolicitudService {
         return solicitudMapper.toDTO(solicitudRepository.getSolicitudByEstado(enumEstadoSolicitud));
     }
 
+    public Integer getNumSolicitudByGato(int idGato){
+        return solicitudRepository.getNumSolicitudByGato(idGato);
+    }
+
 }
