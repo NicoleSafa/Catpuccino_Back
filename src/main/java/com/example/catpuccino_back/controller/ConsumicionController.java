@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/consumiciones")
 public class ConsumicionController {
     @Autowired
     private ConsumicionService consumicionService;
@@ -21,33 +21,33 @@ public class ConsumicionController {
     private ConsumicionMapper consumicionMapper;
 
 
-    @GetMapping(value = "/consumiciones")
+    @GetMapping(value = "")
     public List<ConsumicionDTO> listarConsumisiones() {
         return consumicionService.listarconsumiciones();
     }
 
-    @GetMapping(value = "/consumiciones/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<ConsumicionDTO> getById(@PathVariable("id") int id) {
         ConsumicionDTO producto = consumicionMapper.toDTO(consumicionService.obtenerUno(id).get());
         return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/consumiciones")
+    @PostMapping(value = "")
     public ConsumicionDTO crear(@RequestBody ConsumicionDTO consumicionDTO) {
         return consumicionService.crearConsumicion(consumicionDTO);
     }
 
-    @PutMapping(value = "/consumiciones/{id}")
+    @PutMapping(value = "/{id}")
     public Consumicion modificarConsumicion(@RequestBody ConsumicionDTO consumicionDTO) {
         return consumicionService.editarConsumicion(consumicionDTO);
     }
 
-    @DeleteMapping(value = "/consumiciones/{id}")
+    @DeleteMapping(value = "/{id}")
     public String eliminar(@PathVariable("id") Integer id) {
         return this.consumicionService.eliminarConsumicion(id);
     }
 
-    @PostMapping(value = "/consumiciones/carrito/agregar")
+    @PostMapping(value = "/carrito/agregar")
     public ResponseEntity<String> agregarProductoAlCarrito(@RequestParam("idProducto") Integer idProducto,
                                                            @RequestParam("cantidad") Integer cantidad,
                                                            @RequestParam("idUsuario") Integer idUsuario) {
@@ -55,13 +55,13 @@ public class ConsumicionController {
         return new ResponseEntity<>("Producto agregado al carrito", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/consumiciones/pedido")
+    @PostMapping(value = "/pedido")
     public String carrito (){
         consumicionService.listaCarrito();
         return  ("Producto agregado al carrito");
     }
 
-    @GetMapping(value="/consumiciones/verCarro")
+    @GetMapping(value="/verCarro")
     public List mostrarLista(){
         return consumicionService.mostrarLista();
     }

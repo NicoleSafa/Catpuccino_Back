@@ -5,6 +5,7 @@ import com.example.catpuccino_back.models.Reserva;
 import com.example.catpuccino_back.repository.ReservaRepository;
 import com.example.catpuccino_back.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class ReservaController {
     public Object[] comprobarReserva(@RequestParam String hora, @RequestParam String fecha) {
         String mensaje = "Por favor seleccione todos los campos";
 
-        SimpleDateFormat horita = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat horita = new SimpleDateFormat("HH:mm:ss");
         Time time = null;
         try {
             java.util.Date parsedDate = horita.parse(hora);
@@ -76,6 +77,10 @@ public class ReservaController {
         } else {
             return new Object[] {mensaje};
         }
+    }
+    @PostMapping(value = "/reserva/crear")
+    public ReservaDTO crearReserva(@RequestBody ReservaDTO reservaDTO){
+        return reservaService.crearReserva(reservaDTO);
     }
 
     //cambiar el estado

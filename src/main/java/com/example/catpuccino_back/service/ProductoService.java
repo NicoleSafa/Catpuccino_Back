@@ -26,7 +26,8 @@ public class ProductoService {
     }
 
     //LISTAR
-    public List<ProductoDTO> listarProducto(){return productoMapper.toDTO(productoRepository.findAll());}
+    public List<ProductoDTO> listarProducto(){
+        return productoMapper.toDTO(productoRepository.listarProducto());}
 
     //SOLO UNO
     public Optional<Producto> obtenerUno(int id){return productoRepository.findById(id);}
