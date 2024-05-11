@@ -104,15 +104,29 @@ public class ConsumicionService {
         ReservaDTO reservaDTO = reservaMapper.toDTO(reserva);
 
         if (productoDTO != null && reservaDTO != null) {
-            ConsumicionDTO consumicion = ConsumicionDTO.builder()
-                    .productoDTO(productoDTO)
-                    .cantidad(cantidad)
-                    .reservaDTO(reservaDTO)
-                    .build();
-            //Consumicion consumicionEntity = consumicionMapper.toEntity(consumicion);
-            //consumicionRepository.save(consumicionEntity);
+            boolean productoEncontrado = false;
 
-            carrito.add(consumicion);
+            // Recorre la lista carrito para buscar si el producto ya está agregado
+            for (ConsumicionDTO consumicion : carrito) {
+                // Comprueba si el producto en el carrito es igual al producto a agregar
+                if (consumicion.getProductoDTO().getId().equals(productoDTO.getId()) && consumicion.getReservaDTO().getId().equals(reservaDTO.getId())) {
+                    // Si son iguales, aumenta la cantidad en lugar de agregar uno nuevo
+                    consumicion.setCantidad(consumicion.getCantidad() + cantidad);
+                    productoEncontrado = true;
+                    break; // Termina el bucle ya que ya se encontró el producto
+                }
+            }
+
+            // Si el producto no se encontró en el carrito, agrégalo normalmente
+            if (!productoEncontrado) {
+                ConsumicionDTO consumicion = ConsumicionDTO.builder()
+                        .productoDTO(productoDTO)
+                        .cantidad(cantidad)
+                        .reservaDTO(reservaDTO)
+                        .build();
+
+                carrito.add(consumicion);
+            }
         }
     }
     //ME ENSEÑA LA LISTA QUE TENGO PARA METER Y ESO
@@ -140,13 +154,6 @@ public class ConsumicionService {
         }
         carrito.clear();
     }
-
-
-
-
-
-
-
 
 
 

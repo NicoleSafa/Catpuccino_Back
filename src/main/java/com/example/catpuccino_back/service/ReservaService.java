@@ -7,6 +7,7 @@ import com.example.catpuccino_back.dto.ReservaDTO;
 import com.example.catpuccino_back.dto.UsuarioDTO;
 import com.example.catpuccino_back.models.Reserva;
 import com.example.catpuccino_back.models.Usuario;
+import com.example.catpuccino_back.models.Usuario;
 import com.example.catpuccino_back.models.enums.EstadoReserva;
 import com.example.catpuccino_back.repository.ReservaRepository;
 import com.example.catpuccino_back.repository.UsuarioRepository;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
@@ -40,13 +42,13 @@ public class ReservaService {
     private ReservaRepository reservaRepository;
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private ReservaMapper reservaMapper;
 
     @Autowired
     private UsuarioMapper usuarioMapper;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     //Metodo para ReservaService
     public Reserva getByIdReserva(Integer id){
@@ -67,7 +69,7 @@ public class ReservaService {
                 return new Object[] {exito, mensaje};
             } else {
                 exito = false;
-                mensaje = "Lo sentimos pero no hay reservas disponibles para esta hora";
+                mensaje = "Lo sentimos pero no hay reservas disponibles para esta hora y dia";
                 return new Object[] {exito, mensaje};
             }
 
@@ -169,6 +171,14 @@ public class ReservaService {
     public Integer ultimareserva(int idUsuario) {
         return reservaRepository.ultimareservausuario(idUsuario);
     }
+
+    //Crear Reserva
+    public ReservaDTO crearReserva(ReservaDTO reservaDTO){
+
+        return reservaMapper.toDTO(reservaRepository.save(reservaMapper.toEntity(reservaDTO)));
+    }
+
+
 
     //Las reservas del usuario
     public List<ReservaDTO> obtenerReservasUsuario(@Param("idUsuario") int idUsuario) {

@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
+    @Query(value= "select * from catpuccino.producto p order by p.id", nativeQuery = true)
+    List<Producto> listarProducto ();
+
     //Filtro por tipo de producto
     @Query(value= "select * from catpuccino.producto where tipo=%:tipoProducto", nativeQuery = true)
     List<Producto> filtroTipoProducto (Integer tipoProducto);
