@@ -1,5 +1,6 @@
 package com.example.catpuccino_back.models;
 
+import com.example.catpuccino_back.models.enums.EstadoReserva;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,7 @@ public class Reserva {
     private String nombre_reserva;
 
     @Column(name="telefono")
-    private String telefono;
+    private Integer telefono;
 
     @Column(name="fecha")
     private Date fecha;
@@ -37,6 +38,9 @@ public class Reserva {
 
     @Column(name="reserva_activa")
     private Boolean reserva_activa = true;
+
+    @Column(name="estado_reserva")
+    private EstadoReserva estadoReserva;
 
     @Column(name="pagado")
     private Boolean pagado = false;
