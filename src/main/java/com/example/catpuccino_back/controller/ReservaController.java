@@ -1,13 +1,13 @@
 package com.example.catpuccino_back.controller;
 
 import com.example.catpuccino_back.dto.ReservaDTO;
+import com.example.catpuccino_back.models.Reserva;
+import com.example.catpuccino_back.repository.ReservaRepository;
 import com.example.catpuccino_back.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.sql.Time;
@@ -30,6 +30,12 @@ public class ReservaController {
     @GetMapping(value = "/reserva/ultima/{id}")
     public Integer obtenerUltimaReservaUsuario(@PathVariable("id") int idUsuario) {
         return reservaService.ultimareserva(idUsuario);
+
+    }
+    //LAS RESERVAS DE CADA USUARIO
+    @GetMapping(value="/reserva/reservas/{id}")
+    public List<ReservaDTO> obtenerReservasUsuario(@PathVariable("id") int idUsuario) {
+        return reservaService.obtenerReservasUsuario(idUsuario);
 
     }
 
@@ -71,5 +77,39 @@ public class ReservaController {
             return new Object[] {mensaje};
         }
     }
+
+    //cambiar el estado
+    @PostMapping("/reserva/actualizar")
+    public ResponseEntity<String> actualizarEstadoReservas() {
+        try {
+            reservaService.actualizarReservasAusentes();
+            return ResponseEntity.ok("El estado de las reservas ha sido actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el estado de las reservas.");
+        }
+    }
+
+    //modificar
+    @PostMapping(value="/reserva/modificar/{id}")
+    public String editar (@PathVariable("id") Integer id, @RequestBody ReservaDTO reservaDTO){
+        return reservaService.editarReserva(reservaDTO, id);
+    }
+
+    //borrar
+    @DeleteMapping(value="/reserva/borrar")
+    public String eliminar (@PathVariable("id") Integer id){
+        return this.reservaService.borrarReserva(id);
+    }
+
+    @PostMapping("/reserva/cancelar/{id}")
+    public ResponseEntity<Reserva> cancelarReservaPorId(@PathVariable Integer id) {
+        Reserva reservaCancelada = reservaService.cancelarReserva(id);
+        if (reservaCancelada != null) {
+            return ResponseEntity.ok(reservaCancelada);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
