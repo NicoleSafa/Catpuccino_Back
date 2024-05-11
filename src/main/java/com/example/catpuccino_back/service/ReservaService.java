@@ -254,7 +254,7 @@ public class ReservaService {
     public Reserva cancelarReserva (Integer reservaId){
         Reserva reserva = reservaRepository.findById(reservaId).orElse(null);
         if (reserva != null && reserva.getEstadoReserva().equals(EstadoReserva.PENDIENTE)){
-            reserva.setEstadoReserva(EstadoReserva.AUSENTE);
+            reserva.setEstadoReserva(EstadoReserva.CANCELADO);
             reserva.setReserva_activa(false);
             reservaRepository.save(reserva);
         }
