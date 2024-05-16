@@ -243,23 +243,34 @@ public class ReservaService {
     public String editarReserva(ReservaDTO reservaDTO, Integer id) {
         Reserva reserva = reservaRepository.findById(id).orElse(null);
         if (reserva == null) {
-            return null;
+            return "Reserva no encontrada";
         } else {
-                reserva.setNombre_reserva(reservaDTO.getNombre_reserva());
-                reserva.setTelefono(reservaDTO.getTelefono());
+            // Actualizar los campos que siempre se deben actualizar
+            reserva.setNombre_reserva(reservaDTO.getNombre_reserva());
+            reserva.setTelefono(reservaDTO.getTelefono());
+            reserva.setNumeroPersonas(reservaDTO.getNumeroPersonas());
+
+            // Verificar disponibilidad de la nueva fecha y hora
+            Object[] resultado = comprobarReserva(reservaDTO.getHora(), reservaDTO.getFecha());
+            boolean exito = (boolean) resultado[0];
+            String mensaje = (String) resultado[1];
+
+            if (exito) {
+                // Si hay disponibilidad, actualizar también la fecha y hora
                 reserva.setFecha(reservaDTO.getFecha());
                 reserva.setHora(reservaDTO.getHora());
-                reserva.setNumeroPersonas(reservaDTO.getNumeroPersonas());
-                //reserva.setEstadoReserva(reservaDTO.getEstadoReserva());
-                //reserva.setReserva_activa(reservaDTO.getReserva_activa());
-                //reserva.setPagado(reservaDTO.getPagado());
-                //reserva.setTotal(reservaDTO.getTotal());
-                //reserva.setId_usuario(usuario);
-
-                reservaRepository.save(reserva);
-                return "se ha modificado la reserva";
+                mensaje = "Se ha modificado la reserva";
+            } else {
+                mensaje = "Se han actualizado solo los campos disponibles. " + mensaje;
             }
+
+            reservaRepository.save(reserva);
+            return mensaje;
         }
+    }
+        //Si no ha entrado por el if else porque no hay fechas disponibles, el mensaje que tiene que devolver es
+    //por un toast "se ha editado correctamente todos los campos menos fecha y hora porque no hay hueco disponible en ese dia y/o hora"
+    //que dure un poquito más
 
     public Reserva cancelarReserva (Integer reservaId){
         Reserva reserva = reservaRepository.findById(reservaId).orElse(null);
