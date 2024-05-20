@@ -16,7 +16,6 @@ import java.util.List;
 public class ConsumicionController {
     @Autowired
     private ConsumicionService consumicionService;
-
     @Autowired
     private ConsumicionMapper consumicionMapper;
 
@@ -64,6 +63,11 @@ public class ConsumicionController {
     @GetMapping(value="/verCarro")
     public List mostrarLista(){
         return consumicionService.mostrarLista();
+    }
+
+    @GetMapping(value="/consumicionReserva/{id}")
+    public List<ConsumicionDTO>consumicionesReserva(@PathVariable("id") int idReserva){
+        return consumicionService.obtenerConsumicionesReserva(idReserva);
     }
 
 
