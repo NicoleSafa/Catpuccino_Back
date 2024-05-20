@@ -259,18 +259,15 @@ public class ReservaService {
                 // Si hay disponibilidad, actualizar también la fecha y hora
                 reserva.setFecha(reservaDTO.getFecha());
                 reserva.setHora(reservaDTO.getHora());
-                mensaje = "Se ha modificado la reserva";
+                mensaje = "true";
             } else {
-                mensaje = "Se han actualizado solo los campos disponibles. " + mensaje;
+                mensaje = "false";
             }
 
             reservaRepository.save(reserva);
             return mensaje;
         }
     }
-        //Si no ha entrado por el if else porque no hay fechas disponibles, el mensaje que tiene que devolver es
-    //por un toast "se ha editado correctamente todos los campos menos fecha y hora porque no hay hueco disponible en ese dia y/o hora"
-    //que dure un poquito más
 
     public Reserva cancelarReserva (Integer reservaId){
         Reserva reserva = reservaRepository.findById(reservaId).orElse(null);

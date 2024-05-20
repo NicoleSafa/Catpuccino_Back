@@ -9,11 +9,13 @@ import com.example.catpuccino_back.dto.ReservaDTO;
 import com.example.catpuccino_back.models.Consumicion;
 import com.example.catpuccino_back.models.Producto;
 import com.example.catpuccino_back.models.Reserva;
+import com.example.catpuccino_back.models.enums.EstadoReserva;
 import com.example.catpuccino_back.repository.ConsumicionRepository;
 import com.example.catpuccino_back.repository.ProductoRepository;
 import com.example.catpuccino_back.repository.ReservaRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -154,6 +156,32 @@ public class ConsumicionService {
         }
         carrito.clear();
     }
+
+    //las consumiciones por la reserva
+    public List<ConsumicionDTO> obtenerConsumicionesReserva(@Param("idReserva") int idReserva){
+        List<Consumicion> consumicion = consumicionRepository.consumicionesReserva(idReserva);
+        List<ConsumicionDTO> consumicionesDTO = consumicionMapper.toDTO(consumicion);
+        return consumicionesDTO;
+    }
+
+    //Las consumiciones por reserva pero que tambien setea los campos de reserva para ponerla como pagada con el precio
+    public List<ConsumicionDTO> obtenerConsumicionesReserva1(int idReserva){
+        List<Consumicion> consumicion = consumicionRepository.consumicionesReserva(idReserva);
+        List<ConsumicionDTO> consumicionesDTO = consumicionMapper.toDTO(consumicion);
+
+        Double total = consumicionRepository.calcularTotalPorReserva(idReserva);
+
+        Reserva reserva = reservaRepository.findById(idReserva)
+                .orElseThrow(() -> null);
+        reserva.setTotal(total);
+        reserva.setReserva_activa(false);
+        reserva.setPagado(Boolean.TRUE);
+        reserva.setEstadoReserva(EstadoReserva.PAGADO);
+        reservaRepository.save(reserva);
+
+        return consumicionesDTO;
+    }
+
 
 
 
