@@ -2,8 +2,12 @@ package com.example.catpuccino_back.controller;
 
 import com.example.catpuccino_back.converter.SolicitudMapper;
 import com.example.catpuccino_back.dto.SolicitudDTO;
+import com.example.catpuccino_back.models.Gato;
+import com.example.catpuccino_back.models.Solicitud;
 import com.example.catpuccino_back.service.SolicitudService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +27,12 @@ public class SolicitudController {
     @PostMapping(value = "/newSolicitud")
     public SolicitudDTO nuevaSolicitud(@RequestBody SolicitudDTO solicitudDTO){
         return solicitudService.newSolicitud(solicitudDTO);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Solicitud> getById(@PathVariable("id") int id){
+        Solicitud solicitud = solicitudService.oneByOne(id).get();
+        return new ResponseEntity<>(solicitud, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/aceptar")
