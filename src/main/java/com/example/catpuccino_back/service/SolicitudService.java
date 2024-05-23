@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Service
@@ -54,6 +55,10 @@ public class SolicitudService {
 
     public SolicitudDTO newSolicitud(SolicitudDTO solicitudDTO) {
         return solicitudMapper.toDTO(solicitudRepository.save(solicitudMapper.toEntity(solicitudDTO)));
+    }
+
+    public Optional<Solicitud> oneByOne(int id){
+        return solicitudRepository.findById(id);
     }
 
     //ACTUALIZAR ESTADOS SOLICITUD PENDIENTES A RECHAZADOS
