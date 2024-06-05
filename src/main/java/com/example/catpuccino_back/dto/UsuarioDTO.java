@@ -17,4 +17,15 @@ public class UsuarioDTO {
     private String nombreUsuario;
     private String password;
 
+    public UsuarioDTO(Integer id, String nombre, String apellidos, Integer telefono, String email, String dni, Rol rol, String nombreUsuario, String password) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.email = email;
+        this.dni = dni;
+        this.rol = rol;
+        this.nombreUsuario = nombreUsuario;
+        this.password = password;
+    }
 }
