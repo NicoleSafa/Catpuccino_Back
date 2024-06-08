@@ -9,6 +9,7 @@ import com.example.catpuccino_back.models.Reserva;
 import com.example.catpuccino_back.models.Usuario;
 import com.example.catpuccino_back.models.Usuario;
 import com.example.catpuccino_back.models.enums.EstadoReserva;
+import com.example.catpuccino_back.repository.ConsumicionRepository;
 import com.example.catpuccino_back.repository.ReservaRepository;
 import com.example.catpuccino_back.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -50,13 +48,18 @@ public class ReservaService {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
+    @Autowired
+    private ConsumicionRepository consumicionRepository;
+
     //Metodo para ReservaService
-    public Reserva getByIdReserva(Integer id){
+    public Reserva getByIdReserva(Integer id) {
         return reservaRepository.findById(id).orElse(null);
     }
 
     //LISTAR
-    public List<ReservaDTO> listarReservas() {return reservaMapper.toDTO(reservaRepository.findAll());}
+    public List<ReservaDTO> listarReservas() {
+        return reservaMapper.toDTO(reservaRepository.findAll());
+    }
 
 
     public Object[] comprobarReserva(Time hora, Date fecha) {
@@ -64,19 +67,19 @@ public class ReservaService {
         String mensaje = "Hay reserva disponible";
 
         if (hora != null && fecha != null) {
-            int numReserva = reservaRepository.disponibilidadHoras(hora,fecha);
+            int numReserva = reservaRepository.disponibilidadHoras(hora, fecha);
             if (numReserva < 5) {
-                return new Object[] {exito, mensaje};
+                return new Object[]{exito, mensaje};
             } else {
                 exito = false;
                 mensaje = "Lo sentimos pero no hay reservas disponibles para esta hora y dia";
-                return new Object[] {exito, mensaje};
+                return new Object[]{exito, mensaje};
             }
 
         } else {
-        exito = false;
-        mensaje = "Por favor seleccione todos los campos";
-        return new Object[] {exito, mensaje};
+            exito = false;
+            mensaje = "Por favor seleccione todos los campos";
+            return new Object[]{exito, mensaje};
         }
     }
 
@@ -122,11 +125,9 @@ public class ReservaService {
             e.printStackTrace();
         }
 
-        int count = reservaRepository.disponibilidadHoras(time,fecha);
+        int count = reservaRepository.disponibilidadHoras(time, fecha);
         return count < 5;
     }
-
-
 
 
     // Método para obtener las fechas disponibles para una hora específica en los próximos 7 días laborables
@@ -148,10 +149,10 @@ public class ReservaService {
                     disponibilidadHora[0] = horaEspecifica;
                     disponibilidadHora[1] = new Date(fechaSql.getTime());
                     fechasDisponibles.add(disponibilidadHora);
-                }else {
+                } else {
                     i--;
                 }
-            }else {
+            } else {
                 i--;
             }
             // Avanzar al siguiente día
@@ -162,7 +163,7 @@ public class ReservaService {
 
     // Método para verificar si hay disponibilidad para una hora específica en una fecha específica
     private boolean esFechaDisponibleEnBD(Date fecha, Time hora) {
-        int count = reservaRepository.disponibilidadHoras(hora,fecha);
+        int count = reservaRepository.disponibilidadHoras(hora, fecha);
         return count < 5;
     }
 
@@ -173,11 +174,10 @@ public class ReservaService {
     }
 
     //Crear Reserva
-    public ReservaDTO crearReserva(ReservaDTO reservaDTO){
+    public ReservaDTO crearReserva(ReservaDTO reservaDTO) {
 
         return reservaMapper.toDTO(reservaRepository.save(reservaMapper.toEntity(reservaDTO)));
     }
-
 
 
     //Las reservas del usuario
@@ -191,11 +191,11 @@ public class ReservaService {
     // Método para actualizar el estado de las reservas
 
 
-    public void actualizarReservasAusentes(){
+    public void actualizarReservasAusentes() {
         LocalTime horaLimite = LocalTime.now().minusHours(1).minusMinutes(20); // Una hora y veinte minutos atrás
 
         List<Reserva> reservas = reservaRepository.findAll();
-        for( Reserva cosa : reservas){
+        for (Reserva cosa : reservas) {
             Time horaReservaSql = cosa.getHora();
             LocalTime horaReserva = horaReservaSql.toLocalTime();
             SimpleDateFormat fechita = new SimpleDateFormat("yyyy-MM-dd"); // le doy el formato
@@ -215,25 +215,26 @@ public class ReservaService {
             // Convertir Date a Calendar
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(fecha1);
-            LocalDate pasarFecha1 = LocalDate.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH));
+            LocalDate pasarFecha1 = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
             Boolean laFecha = pasarFecha1.equals(LocalDate.now());
 
-                if (haPasadoHoraLimite && estaPagado && laFecha) {
-                    cosa.setReserva_activa(Boolean.FALSE);
-                    cosa.setEstadoReserva(EstadoReserva.AUSENTE);
+            if (haPasadoHoraLimite && estaPagado && laFecha) {
+                cosa.setReserva_activa(Boolean.FALSE);
+                cosa.setEstadoReserva(EstadoReserva.AUSENTE);
 
-                    reservaRepository.save(cosa);
-                }
+                reservaRepository.save(cosa);
+            }
 
         }
 
 
     }
+
     //borrar
-    public String borrarReserva (Integer id){
-        if (id==null){
+    public String borrarReserva(Integer id) {
+        if (id == null) {
             return ("No se ha encontrado la reserva");
-        }else{
+        } else {
             reservaRepository.deleteById(id);
             return ("Reserva eliminada");
         }
@@ -269,9 +270,9 @@ public class ReservaService {
         }
     }
 
-    public Reserva cancelarReserva (Integer reservaId){
+    public Reserva cancelarReserva(Integer reservaId) {
         Reserva reserva = reservaRepository.findById(reservaId).orElse(null);
-        if (reserva != null && reserva.getEstadoReserva().equals(EstadoReserva.PENDIENTE)){
+        if (reserva != null && reserva.getEstadoReserva().equals(EstadoReserva.ACTIVO)) {
             reserva.setEstadoReserva(EstadoReserva.CANCELADO);
             reserva.setReserva_activa(false);
             reservaRepository.save(reserva);
@@ -279,10 +280,63 @@ public class ReservaService {
         return reserva;
     }
 
+    public List<ReservaDTO> reservasFechaHoraActual() {
+        List<Reserva> reservas = reservaRepository.findAll();
+        List<Reserva> reservasAMostrar = new ArrayList<>();
 
+        LocalTime hora = LocalTime.now();
+        for (Reserva cosa : reservas) {
+            Time horaReservaSql = cosa.getHora();
+            LocalTime horaReserva1 = cosa.getHora().toLocalTime();
+            LocalTime horaReserva = horaReservaSql.toLocalTime();
+            SimpleDateFormat fechita = new SimpleDateFormat("yyyy-MM-dd"); // le doy el formato
+            java.util.Date fecha1 = null; //creo una variable nueva del tipo de dato
+            try {
+                // Parsea la cadena de fecha a un objeto java.util.Date
+                java.util.Date parsedDate = fechita.parse(String.valueOf(cosa.getFecha()));
 
+                // Convierte java.util.Date a java.sql.Date
+                fecha1 = new java.sql.Date(parsedDate.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            boolean horaOk = horaReserva.getHour() == hora.getHour();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fecha1);
+            LocalDate pasarFecha1 = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+            Boolean fechaOk = pasarFecha1.equals(LocalDate.now());
+            Boolean activo = cosa.getEstadoReserva().equals(EstadoReserva.ACTIVO);
+            if (horaOk && fechaOk && activo) {
+
+                reservasAMostrar.add(cosa);
+            }
+        }
+        List<ReservaDTO> reservasDTO = reservaMapper.toDTO(reservasAMostrar);
+        return reservasDTO;
+    }
+
+    public Boolean cancelarReservasHora() {
+        List<ReservaDTO> reservas = reservasFechaHoraActual();
+        for (ReservaDTO cosa : reservas) {
+            Boolean comprobante = consumicionRepository.existenConsumicionesReserva(cosa.getId());
+            if (comprobante == false) {
+                cosa.setEstadoReserva(EstadoReserva.AUSENTE);
+                cosa.setReserva_activa(false);
+                Reserva cosa1 = reservaMapper.toEntity(cosa);
+                reservaRepository.save(cosa1);
+                return true;
+
+            }
+        }return false;
+
+    }
+    public List<Reserva> obtenerReservasDelDiaPagadas() {
+        return reservaRepository.reservasDelDiaPagadas();
+    }
 
 }
+
+
 
 
 

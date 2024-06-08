@@ -165,7 +165,7 @@ public class ConsumicionService {
     }
 
     //Las consumiciones por reserva pero que tambien setea los campos de reserva para ponerla como pagada con el precio
-    public List<ConsumicionDTO> obtenerConsumicionesReserva1(int idReserva){
+    public List<ConsumicionDTO> pagoCamarero(int idReserva){
         List<Consumicion> consumicion = consumicionRepository.consumicionesReserva(idReserva);
         List<ConsumicionDTO> consumicionesDTO = consumicionMapper.toDTO(consumicion);
 
@@ -182,6 +182,9 @@ public class ConsumicionService {
         return consumicionesDTO;
     }
 
+    public boolean existenConsumicionesParaReserva(int idReserva) {
+        return consumicionRepository.existenConsumicionesReserva(idReserva);
+    }
 
 
 

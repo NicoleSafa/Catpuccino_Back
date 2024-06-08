@@ -56,5 +56,9 @@ public class SolicitudController {
     public Integer getNumSolicitudByGato(@PathVariable int idGato){
         return solicitudService.getNumSolicitudByGato(idGato);
     }
+    @GetMapping(value="/usuario/{idUsuario}")
+    public List<SolicitudDTO>obtenerSolicitudesPorUsuario(@PathVariable int idUsuario){
+        return solicitudService.obtenerSolicitudesPorUsuario(idUsuario);
+    }
 
 }

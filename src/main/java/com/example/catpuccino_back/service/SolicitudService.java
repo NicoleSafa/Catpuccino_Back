@@ -8,6 +8,7 @@ import com.example.catpuccino_back.dto.AdopcionDTO;
 import com.example.catpuccino_back.dto.GatoDTO;
 import com.example.catpuccino_back.dto.SolicitudDTO;
 import com.example.catpuccino_back.dto.UsuarioDTO;
+import com.example.catpuccino_back.models.Adopcion;
 import com.example.catpuccino_back.models.Gato;
 import com.example.catpuccino_back.models.Solicitud;
 import com.example.catpuccino_back.models.Usuario;
@@ -57,12 +58,12 @@ public class SolicitudService {
         return solicitudMapper.toDTO(solicitudRepository.save(solicitudMapper.toEntity(solicitudDTO)));
     }
 
-    public Optional<Solicitud> oneByOne(int id){
+    public Optional<Solicitud> oneByOne(int id) {
         return solicitudRepository.findById(id);
     }
 
     //ACTUALIZAR ESTADOS SOLICITUD PENDIENTES A RECHAZADOS
-    public void actualizarEstadosSolicitud(SolicitudDTO solicitudDTO, List<SolicitudDTO> listSolicitudDTOs){
+    public void actualizarEstadosSolicitud(SolicitudDTO solicitudDTO, List<SolicitudDTO> listSolicitudDTOs) {
         for (SolicitudDTO solicitudAEditar : listSolicitudDTOs) {
             if (solicitudAEditar.getGatoDTO().getId().equals(solicitudDTO.getGatoDTO().getId())
                     && solicitudAEditar.getEstadoSolicitud().equals(EstadoSolicitud.PENDIENTE)) {
@@ -73,7 +74,7 @@ public class SolicitudService {
     }
 
     //ACTUALIZAR DISPONIBILIDAD DE GATOS ADOPTADOS
-    public void actualizarDisponibilidadGato(GatoDTO gatoDTO){
+    public void actualizarDisponibilidadGato(GatoDTO gatoDTO) {
         Gato gato = gatoRepository.findById(gatoDTO.getId()).orElse(null);
 
         gato.setDisponible(Boolean.FALSE);
@@ -99,7 +100,7 @@ public class SolicitudService {
 
             actualizarDisponibilidadGato(gatoDTO);
 
-            if (EstadoSolicitud.ACEPTADO.equals(solicitudAAceptar.getEstadoSolicitud())){
+            if (EstadoSolicitud.ACEPTADO.equals(solicitudAAceptar.getEstadoSolicitud())) {
                 AdopcionDTO adopcionDTO = new AdopcionDTO();
                 adopcionDTO.setGatoDTO(gatoDTO);
                 adopcionDTO.setUsuarioDTO(usuarioDTO);
@@ -136,12 +137,18 @@ public class SolicitudService {
     }
 
     //------------FILTROS---------------
-    public List<SolicitudDTO> getSolicitudByEstado(int enumEstadoSolicitud){
+    public List<SolicitudDTO> getSolicitudByEstado(int enumEstadoSolicitud) {
         return solicitudMapper.toDTO(solicitudRepository.getSolicitudByEstado(enumEstadoSolicitud));
     }
 
-    public Integer getNumSolicitudByGato(int idGato){
+    public Integer getNumSolicitudByGato(int idGato) {
         return solicitudRepository.getNumSolicitudByGato(idGato);
     }
 
+
+    public List<SolicitudDTO> obtenerSolicitudesPorUsuario(int idUsuario) {
+        List<Solicitud> solicitudes = solicitudRepository.solicitudPorUsuario(idUsuario);
+        List<SolicitudDTO> solicitudesDTO = solicitudMapper.toDTO(solicitudes);
+        return solicitudesDTO;
+    }
 }

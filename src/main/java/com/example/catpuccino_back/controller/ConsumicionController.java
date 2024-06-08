@@ -70,6 +70,16 @@ public class ConsumicionController {
         return consumicionService.obtenerConsumicionesReserva(idReserva);
     }
 
+    @GetMapping(value="/consumicionCamarero/{id}")
+    public List<ConsumicionDTO>consumicionesCamarero(@PathVariable("id") int idReserva){
+        return consumicionService.pagoCamarero(idReserva);
+    }
+
+    @GetMapping("/prueba/{idReserva}")
+    public boolean existenConsumiciones(@PathVariable int idReserva) {
+        return consumicionService.existenConsumicionesParaReserva(idReserva);
+    }
+
 
 
 }

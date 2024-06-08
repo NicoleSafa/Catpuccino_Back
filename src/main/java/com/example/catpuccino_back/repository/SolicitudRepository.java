@@ -1,8 +1,10 @@
 package com.example.catpuccino_back.repository;
 
+import com.example.catpuccino_back.models.Adopcion;
 import com.example.catpuccino_back.models.Solicitud;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +17,7 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 
     @Query(value = "select count(s.id_gato) from catpuccino.solicitud s where s.id_gato = %:idGato% group by s.id_gato", nativeQuery = true)
     Integer getNumSolicitudByGato(int idGato);
+
+    @Query(value= "SELECT * FROM catpuccino.solicitud s WHERE s.id_usuario = :idUsuario", nativeQuery = true)
+    List<Solicitud> solicitudPorUsuario (@Param("idUsuario") int idUsuario);
 }

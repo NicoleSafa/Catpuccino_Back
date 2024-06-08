@@ -116,5 +116,27 @@ public class ReservaController {
         }
     }
 
+    @GetMapping("/reserva/fechayhora")
+    public List<ReservaDTO> reservasFechaHora(){
+        return reservaService.reservasFechaHoraActual();
+    }
 
-}
+
+    @PutMapping("/reserva/ausentes")
+    public ResponseEntity<Boolean> reservasAusentes() {
+        Boolean result = reservaService.cancelarReservasHora();
+        return ResponseEntity.ok(result); // Devolver true o false en el cuerpo de la respuesta
+    }
+
+    @GetMapping("/reserva/pagadasdia")
+    public ResponseEntity<List<Reserva>> obtenerReservasDelDiaPagadas() {
+        List<Reserva> reservasPagadasDelDia = reservaService.obtenerReservasDelDiaPagadas();
+        if (reservasPagadasDelDia.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(reservasPagadasDelDia, HttpStatus.OK);
+        }
+    }
+    }
+
+
