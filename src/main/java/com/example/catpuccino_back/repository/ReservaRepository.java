@@ -26,15 +26,22 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
     //TE PONE LA ÚLTIMA RESERVA LIGADA AL USUARIO
 
-        @Query(value = "SELECT r.id " +
-                "FROM catpuccino.reserva r " +
-                "JOIN catpuccino.usuario u ON u.id = r.id_usuario " +
-                "WHERE r.reserva_activa = true AND u.id = :idUsuario", nativeQuery = true)
-        Integer ultimareservausuario(@Param("idUsuario") int idUsuario);
+    @Query(value = "SELECT r.id " +
+            "FROM catpuccino.reserva r " +
+            "JOIN catpuccino.usuario u ON u.id = r.id_usuario " +
+            "WHERE r.reserva_activa = true " +
+            "AND u.id = :idUsuario " +
+            "AND r.fecha = CURRENT_DATE", nativeQuery = true)
+    Integer ultimareservausuario(@Param("idUsuario") int idUsuario);
+
+
 
 
     @Query(value = "select * from catpuccino.reserva where id_usuario = :idUsuario", nativeQuery = true)
     List<Reserva> reservasUsuario(@Param("idUsuario") int idUsuario);
+
+    @Query(value = "SELECT * FROM catpuccino.reserva WHERE fecha = CURRENT_DATE AND estado_reserva = 2", nativeQuery = true)
+    List<Reserva> reservasDelDiaPagadas();
 }
 
 

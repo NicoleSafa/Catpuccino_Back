@@ -19,4 +19,8 @@ public interface ConsumicionRepository extends JpaRepository<Consumicion, Intege
 
     @Query(value="select sum(c.cantidad * p.precio) from catpuccino.consumicion c join catpuccino.producto p on p.id = c.id_producto where c.id_reserva = :idReserva", nativeQuery = true)
     Double calcularTotalPorReserva(@Param("idReserva") int idReserva);
+
+    @Query(value="select case when count(*) > 0 then true else false end from catpuccino.consumicion c where c.id_reserva=:idReserva", nativeQuery = true)
+    boolean existenConsumicionesReserva(@Param("idReserva") int idReserva);
+
 }

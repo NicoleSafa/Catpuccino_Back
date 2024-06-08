@@ -2,6 +2,7 @@ package com.example.catpuccino_back.service;
 
 import com.example.catpuccino_back.converter.AdopcionMapper;
 import com.example.catpuccino_back.dto.AdopcionDTO;
+import com.example.catpuccino_back.models.Adopcion;
 import com.example.catpuccino_back.repository.AdopcionRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,11 @@ public class AdopcionService {
     //------------FILTROS---------------
     public  Integer getNumAdopciones(){
         return adopcionRepository.getNumAdopciones();
+    }
+
+    public List<AdopcionDTO> obtenerAdopcionesPorUsuario(int idUsuario) {
+        List<Adopcion> adopciones = adopcionRepository.findByIdUsuario(idUsuario);
+        List<AdopcionDTO> adopcionesDTO = adopcionMapper.toDTO(adopciones);
+        return adopcionesDTO;
     }
 }
