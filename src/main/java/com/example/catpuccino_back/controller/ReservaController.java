@@ -11,9 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -23,23 +30,54 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
+    //Listar Basico de Reservas
     @GetMapping(value="/reserva")
     public List<ReservaDTO> listarReserva(){
         return reservaService.listarReservas();
     }
 
+    //Listar Reserva por ID
     @GetMapping(value = "/reserva/ultima/{id}")
     public Integer obtenerUltimaReservaUsuario(@PathVariable("id") int idUsuario) {
         return reservaService.ultimareserva(idUsuario);
 
     }
-    //LAS RESERVAS DE CADA USUARIO
+    //Listar Todas las Reservas de un Usuario
     @GetMapping(value="/reserva/reservas/{id}")
     public List<ReservaDTO> obtenerReservasUsuario(@PathVariable("id") int idUsuario) {
         return reservaService.obtenerReservasUsuario(idUsuario);
-
     }
 
+    //Crear Reserva
+    @PostMapping(value = "/reserva/crear")
+    public ReservaDTO crearReserva(@RequestBody ReservaDTO reservaDTO){
+        return reservaService.crearReserva(reservaDTO);
+    }
+
+    // Actualiza el estado de la Reserva
+    @PostMapping("/reserva/actualizar")
+    public ResponseEntity<String> actualizarEstadoReservas() {
+        try {
+            reservaService.actualizarReservasAusentes();
+            return ResponseEntity.ok("El estado de las reservas ha sido actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el estado de las reservas.");
+        }
+    }
+
+    // Editar Reserva
+    @PostMapping(value="/reserva/modificar/{id}")
+    public String editar (@PathVariable("id") Integer id, @RequestBody ReservaDTO reservaDTO){
+        return reservaService.editarReserva(reservaDTO, id);
+    }
+
+    // Borrar Reserva
+    @DeleteMapping(value="/reserva/borrar")
+    public String eliminar (@PathVariable("id") Integer id){
+        return this.reservaService.borrarReserva(id);
+    }
+
+    // Metodo que comprueba disponibilidad de la fecha y la hora para hacer reserva
     @GetMapping("/comprobarReserva")
     public Object[] comprobarReserva(@RequestParam String hora, @RequestParam String fecha) {
         String mensaje = "Por favor seleccione todos los campos";
@@ -65,47 +103,42 @@ public class ReservaController {
             e.printStackTrace();
         }
 
+        LocalDate fechaActual = LocalDate.now();
+        Date fechaUsuarioDate = Date.valueOf(fechaActual);
+        LocalTime horaActualLocalTime = LocalTime.now();
+        Time horaActualTime = Time.valueOf(horaActualLocalTime);
+
+
         if (time != null && fecha1 != null) {
-            return reservaService.comprobarReserva(time, fecha1);
+
+            if (fecha1.after(fechaUsuarioDate) || fecha1.equals(fechaUsuarioDate)) {
+                return reservaService.comprobarReserva(time, fecha1);
+            }else {
+                mensaje = "Lo sentimos pero la fecha o la hora, ya han pasado " + fecha1 + " a las " + time;
+                return new Object[] {false,mensaje};
+            }
+
         } else if (fecha1 == null){
+
             List<Object> fechasDisponibles = reservaService.obtenerFechasDisponibles(time);
             return fechasDisponibles.toArray(new Object[0][]);
 
         }else if (time == null){
-            List<Object[]> result = reservaService.verificarDisponibilidad(fecha1);
-            return result.toArray(new Object[0][]);
+
+            if (fecha1.after(fechaUsuarioDate) || fecha1.equals(fechaUsuarioDate)) {
+                List<Object[]> result = reservaService.verificarDisponibilidad(fecha1);
+                return result.toArray(new Object[0][]);
+            }else {
+                mensaje = "Lo sentimos pero la fecha que ha seleccionado, ya ha pasado " + fechaUsuarioDate;
+                return new Object[] {mensaje};
+            }
+
         } else {
             return new Object[] {mensaje};
         }
     }
-    @PostMapping(value = "/reserva/crear")
-    public ReservaDTO crearReserva(@RequestBody ReservaDTO reservaDTO){
-        return reservaService.crearReserva(reservaDTO);
-    }
 
-    //cambiar el estado
-    @PostMapping("/reserva/actualizar")
-    public ResponseEntity<String> actualizarEstadoReservas() {
-        try {
-            reservaService.actualizarReservasAusentes();
-            return ResponseEntity.ok("El estado de las reservas ha sido actualizado correctamente.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el estado de las reservas.");
-        }
-    }
-
-    //modificar
-    @PostMapping(value="/reserva/modificar/{id}")
-    public String editar (@PathVariable("id") Integer id, @RequestBody ReservaDTO reservaDTO){
-        return reservaService.editarReserva(reservaDTO, id);
-    }
-
-    //borrar
-    @DeleteMapping(value="/reserva/borrar")
-    public String eliminar (@PathVariable("id") Integer id){
-        return this.reservaService.borrarReserva(id);
-    }
-
+    // Cancelación de reserva
     @PostMapping("/reserva/cancelar/{id}")
     public ResponseEntity<Reserva> cancelarReservaPorId(@PathVariable Integer id) {
         Reserva reservaCancelada = reservaService.cancelarReserva(id);
@@ -120,6 +153,17 @@ public class ReservaController {
     public List<ReservaDTO> reservasFechaHora(){
         return reservaService.reservasFechaHoraActual();
     }
+
+    @GetMapping("/reserva/ultimaReserva/{idUsuario}")
+    public Reserva ultimaReservaActiva (@PathVariable int idUsuario){
+        return reservaService.ultimaReservaActiva(idUsuario);
+    }
+    @GetMapping("/reserva/quedanDiezMinutos/{idUsuario}")
+    public ResponseEntity<Boolean> quedanDiezMinutosOmenosParaReserva(@PathVariable int idUsuario) {
+        boolean quedanDiezMinutos = reservaService.quedanDiezMinutosOmenosParaReserva(idUsuario);
+        return ResponseEntity.ok(quedanDiezMinutos);
+    }
+
 
 
     @PutMapping("/reserva/ausentes")
