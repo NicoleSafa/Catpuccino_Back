@@ -16,9 +16,9 @@ import com.example.catpuccino_back.repository.ReservaRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
+import java.util.Iterator;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +131,41 @@ public class ConsumicionService {
             }
         }
     }
+
+    public void diminuirProductoAlCarrito(Integer idProducto, Integer cantidad, Integer idUsuario) {
+        Integer idReserva = reservaService.ultimareserva(idUsuario);
+        Producto producto = productoService.getByIdProducto(idProducto);
+        ProductoDTO productoDTO = productoMapper.toDTO(producto);
+        Reserva reserva = reservaService.getByIdReserva(idReserva);
+        ReservaDTO reservaDTO = reservaMapper.toDTO(reserva);
+
+        if (productoDTO != null && reservaDTO != null) {
+            boolean productoEncontrado = false;
+
+            // Recorre la lista carrito para buscar si el producto ya está agregado
+            for (Iterator<ConsumicionDTO> iterator = carrito.iterator(); iterator.hasNext();) {
+                ConsumicionDTO consumicion = iterator.next();
+
+                // Comprueba si el producto en el carrito es igual al producto a agregar
+                if (consumicion.getProductoDTO().getId().equals(productoDTO.getId()) &&
+                        consumicion.getReservaDTO().getId().equals(reservaDTO.getId())) {
+
+                    // Reduce la cantidad del producto en el carrito
+                    consumicion.setCantidad(consumicion.getCantidad() - cantidad);
+
+                    // Si la cantidad se reduce a 0 o menos, elimina el producto del carrito
+                    if (consumicion.getCantidad() <= 0) {
+                        iterator.remove();
+                    }
+
+                    productoEncontrado = true;
+                    break; // Termina el bucle ya que ya se encontró el producto
+                }
+            }
+        }
+    }
+
+
     //ME ENSEÑA LA LISTA QUE TENGO PARA METER Y ESO
     public List mostrarLista(){
         return carrito;
