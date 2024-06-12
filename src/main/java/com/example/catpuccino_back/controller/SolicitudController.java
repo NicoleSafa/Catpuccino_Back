@@ -45,6 +45,11 @@ public class SolicitudController {
         return solicitudService.rechazarSolicitud(id);
     }
 
+    @PatchMapping("/{id}/cancelar")
+    public String cancelarSolicitud(@PathVariable int id){
+        return solicitudService.cancelarSolicitud(id);
+    }
+
 
     //------------FILTROS---------------
     @GetMapping(value = "/estadoSolicitud")
@@ -56,9 +61,10 @@ public class SolicitudController {
     public Integer getNumSolicitudByGato(@PathVariable int idGato){
         return solicitudService.getNumSolicitudByGato(idGato);
     }
-    @GetMapping(value="/usuario/{idUsuario}")
-    public List<SolicitudDTO>obtenerSolicitudesPorUsuario(@PathVariable int idUsuario){
-        return solicitudService.obtenerSolicitudesPorUsuario(idUsuario);
+
+    @GetMapping(value = "/{idUsuario}/solicitudUsuario")
+    public List<SolicitudDTO> getSolicitudByUsuario(@PathVariable int idUsuario){
+        return solicitudService.getSolicitudByUsuario(idUsuario);
     }
 
 }
