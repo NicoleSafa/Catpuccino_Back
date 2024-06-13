@@ -173,14 +173,15 @@ public class ReservaController {
     }
 
     @GetMapping("/reserva/pagadasdia")
-    public ResponseEntity<List<Reserva>> obtenerReservasDelDiaPagadas() {
-        List<Reserva> reservasPagadasDelDia = reservaService.obtenerReservasDelDiaPagadas();
+    public ResponseEntity<List<ReservaDTO>> obtenerReservasDelDiaPagadas() {
+        List<ReservaDTO> reservasPagadasDelDia = reservaService.obtenerReservasDelDiaPagadas();
         if (reservasPagadasDelDia.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(reservasPagadasDelDia, HttpStatus.OK);
         }
     }
-    }
+
+}
 
 

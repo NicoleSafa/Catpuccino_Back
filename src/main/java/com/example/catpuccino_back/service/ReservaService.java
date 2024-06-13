@@ -390,8 +390,10 @@ public class ReservaService {
         }return false;
 
     }
-    public List<Reserva> obtenerReservasDelDiaPagadas() {
-        return reservaRepository.reservasDelDiaPagadas();
+    public List<ReservaDTO> obtenerReservasDelDiaPagadas() {
+       List<Reserva> reservas = reservaRepository.reservasDelDiaPagadas();
+       List<ReservaDTO> reservasDTO = reservaMapper.toDTO(reservas);
+       return reservasDTO;
     }
 }
 
