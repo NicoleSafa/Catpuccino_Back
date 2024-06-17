@@ -169,14 +169,14 @@ public class ReservaController {
     @PutMapping("/reserva/ausentes")
     public ResponseEntity<Boolean> reservasAusentes() {
         Boolean result = reservaService.cancelarReservasHora();
-        return ResponseEntity.ok(result); // Devolver true o false en el cuerpo de la respuesta
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/reserva/pagadasdia")
     public ResponseEntity<List<ReservaDTO>> obtenerReservasDelDiaPagadas() {
         List<ReservaDTO> reservasPagadasDelDia = reservaService.obtenerReservasDelDiaPagadas();
         if (reservasPagadasDelDia.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(reservasPagadasDelDia, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(reservasPagadasDelDia, HttpStatus.OK);
         }
